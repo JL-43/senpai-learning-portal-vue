@@ -1,5 +1,5 @@
 <template>
-  <div class="scm-board grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="scm-board grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
     <CourseCard 
       v-for="course in courses" 
       :key="course.id" 
@@ -49,6 +49,12 @@ export default {
 <style>
 /* Styles for scmBoard */
 .scm-board {
-  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px; /* Reduced gap size between cards */
+  justify-content: center;
+  justify-items: center;
+  align-items: start;
+  padding: 50px; /* Increased top padding for more space from the header */
 }
 </style>

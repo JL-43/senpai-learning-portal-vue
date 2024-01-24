@@ -85,7 +85,6 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   /* Shadow similar to CourseCard */
   padding: 20px;
-  margin-bottom: 30px;
   max-width: 800px;
   /* Match CourseCard width */
   margin: 20px auto;
@@ -96,8 +95,8 @@ export default {
   background-color: #f5f5f5;
   border-radius: 10px;
   height: 20px;
-  position: relative;
   margin-top: 30px;
+  position: relative;
 }
 
 .progress-inner {
