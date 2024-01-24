@@ -2,20 +2,21 @@
   <div class="home-page">
     <h1 class="main-header">Course Progress Overview</h1>
     <div v-for="board in progressData" :key="board.name" class="board-progress">
-      <h2 class="sub-header">{{ formatBoardName(board.name) }}</h2>
+      <h2 class="sub-header">{{ formatBoardTitle(board.name) }}</h2>
+        <ul>
+          <li v-for="course in board.courses" :key="course.id" class="course-item">
+            <span v-if="course.completed" class="checkmark">&#10004;</span>
+            <span :class="['course-title', {'completed-course': course.completed }]">{{ course.title }}</span>
+          </li>
+        </ul>
       <div class="progress">
-        <div class="progress-inner" :style="{ width: calculateOverallProgress(board.courses) + '%' }"></div>
+        <div class="progress-inner" :style="{ width: calculateOverallProgress(board.courses) + '%' }">
+          <span class="progress-text">{{ calculateOverallProgress(board.courses) }}%</span>
+        </div>
       </div>
-      <ul>
-        <li v-for="course in board.courses" :key="course.id" class="course-item">
-          <span :class="{ 'completed-course': course.completed }">{{ course.title }}</span>
-          <span v-if="course.completed" class="checkmark">&#10004;</span>
-        </li>
-      </ul>
     </div>
   </div>
 </template>
-
 
 <script>
 import axios from 'axios';
@@ -44,6 +45,15 @@ export default {
     },
     formatBoardName(name) {
       return name.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();
+    },
+    formatBoardTitle(boardName) {
+      const nameMap = {
+        'generalBoard': 'General Learning Board',
+        'otcBoard': 'EMEA S/4HANA for OTC Beginner',
+        'scmBoard': 'EMEA S/4HANA for SCM Beginner'
+        // Add more mappings as needed
+      };
+      return nameMap[boardName] || boardName; // Fallback to the original name if not found in map
     }
   }
 };
@@ -84,23 +94,25 @@ export default {
 
 .progress {
   background-color: #f5f5f5;
-  /* Light grey background */
   border-radius: 10px;
-  /* Rounded corners */
   height: 20px;
-  /* Increased height */
-  margin-top: 10px;
-  /* Spacing above the progress bar */
+  position: relative;
+  margin-top: 30px;
 }
 
 .progress-inner {
   background: linear-gradient(to right, #98FB98, #32CD32);
-  /* Gradient green */
   border-radius: 10px;
-  /* Rounded corners */
   height: 100%;
   transition: width 0.3s ease-in-out;
-  /* Smooth width transition */
+  display: flex;
+  align-items: center; /* Align text vertically */
+  justify-content: center; /* Align text horizontally */
+}
+
+.progress-text {
+  color: white;
+  font-weight: bold;
 }
 
 .course-item {
@@ -109,12 +121,22 @@ export default {
   margin-bottom: 5px;
 }
 
+.course-title {
+  flex-grow: 1;
+  margin-left: 30px; /* Padding for text alignment */
+}
+
+.completed-course .course-title {
+  margin-left: 0; /* Remove additional padding when completed */
+}
+
+
 .completed-course {
   color: green;
 }
 
 .checkmark {
-  margin-left: 10px;
+  margin-right: -12px; /* Space between checkmark and text */
   color: green;
 }
 </style>
