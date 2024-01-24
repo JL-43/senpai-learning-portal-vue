@@ -1,5 +1,9 @@
 # senpai-learning-portal-vue
 
+This project is dedicated to the learning of my senpai!
+
+
+
 ## Project setup
 ```
 npm install
@@ -10,9 +14,10 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and run
 ```
-npm run build
+build with: npm run build
+run with: run node server.js
 ```
 
 ### Lints and fixes files
@@ -20,9 +25,3 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-
-```
-build with: run npm run build
-run with: run node server.js
-```
