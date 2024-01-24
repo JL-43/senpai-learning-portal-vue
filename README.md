@@ -4,7 +4,6 @@ This project is dedicated to the learning of my senpai!
 
 Hi senpai! Yar da best!
 
-Inline-style: 
 ![alt text](https://github.com/JL-43/senpai-learning-portal-vue/blob/main/src/assets/panda-for-readme.jpeg "Panda for my senpai")
 
 ## Project setup
