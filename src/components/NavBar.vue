@@ -1,17 +1,17 @@
 <template>
-  <nav class="bg-gray-800 p-4 text-white">
-    <router-link to="/" class="px-2 py-1 hover:bg-gray-700">General Learning Board</router-link>
-    <router-link to="/otc" class="px-2 py-1 hover:bg-gray-700">EMEA S/4HANA for OTC Beginner</router-link>
-    <router-link to="/scm" class="px-2 py-1 hover:bg-gray-700">EMEA S/4HANA for SCM Beginner</router-link>
+  <nav class="bg-gray-800 p-6 text-white flex justify-right">
+    <router-link to="/" class="px-4 hover:bg-gray-700 py-2 rounded">General Learning Board</router-link>
+    <router-link to="/otc" class="px-4 hover:bg-gray-700 py-2 rounded">EMEA S/4HANA for OTC Beginner</router-link>
+    <router-link to="/scm" class="px-4 hover:bg-gray-700 py-2 rounded">EMEA S/4HANA for SCM Beginner</router-link>
   </nav>
 </template>
 
 
-<script>
-export default {
-  name: 'NavBar'
+<style>
+nav {
+  font-family: 'Roboto', sans-serif;
 }
-</script>
+</style>
 
 <style>
 /* NavBar styles */
