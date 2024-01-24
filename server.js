@@ -1,6 +1,8 @@
+// server.js
 const admin = require('firebase-admin');
 
-const serviceAccount = require('./firebase-service-account.json');
+// Initialize Firebase Admin with service account
+const serviceAccount = require('./senpai-learning-portal-vue-firebase-adminsdk-1a519-1991a70234.json');
 const db = admin.firestore();
 
 
