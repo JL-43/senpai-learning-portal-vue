@@ -1,11 +1,11 @@
 <template>
-    <div class="otc-board grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <CourseCard 
-        v-for="course in courses" 
-        :key="course.id" 
-        :course="course"
-        @changeCompletion="toggleCompletion"
-      />
+  <div class="otc-board grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <CourseCard 
+      v-for="course in courses" 
+      :key="course.id" 
+      :course="course"
+      @changeCompletion="toggleCompletion"
+    />
   </div>
 </template>
 

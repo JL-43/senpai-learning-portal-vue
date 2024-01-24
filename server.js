@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -44,6 +45,12 @@ app.put('/courses/:board/:id', (req, res) => {
       res.status(404).send('Course not found');
     }
   });
+});
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {

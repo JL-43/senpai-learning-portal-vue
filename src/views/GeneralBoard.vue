@@ -1,5 +1,5 @@
 <template>
-    <div class="general-board grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="general-board grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <CourseCard 
       v-for="course in courses" 
       :key="course.id" 
