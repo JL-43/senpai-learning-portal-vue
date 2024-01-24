@@ -1,77 +1,51 @@
-// server.js
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
 const admin = require('firebase-admin');
 
 // Initialize Firebase Admin with service account
 const serviceAccount = require('./senpai-learning-portal-vue-firebase-adminsdk-1a519-1991a70234.json');
-const db = admin.firestore();
-
-
-const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const cors = require('cors');
-const path = require('path');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
+const db = admin.firestore();
+
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 const PORT = 3000;
-const DATA_FILE = './data/db.json';
 
-app.get('/courses/:board', (req, res) => {
-  fs.readFile(DATA_FILE, (err, data) => {
-    if (err) {
-      res.status(500).send('Server error');
-      return;
-    }
+app.get('/courses/:board', async (req, res) => {
+  try {
     const board = req.params.board;
-    const courses = JSON.parse(data)[board];
-    res.json(courses);
-  });
+    const boardRef = db.collection('courses').doc(board);
+    const doc = await boardRef.get();
+    if (!doc.exists) {
+      return res.status(404).send('Board not found');
+    }
+    return res.json(doc.data());
+  } catch (error) {
+    return res.status(500).send('Internal Server Error');
+  }
 });
 
-app.put('/courses/:board/:id', (req, res) => {
-  fs.readFile(DATA_FILE, (err, data) => {
-    if (err) {
-      res.status(500).send('Server error');
-      return;
-    }
-    let db = JSON.parse(data);
+app.put('/courses/:board/:id', async (req, res) => {
+  try {
     const { board, id } = req.params;
-    const courseIndex = db[board].findIndex(c => c.id === id);
-    if (courseIndex >= 0) {
-      db[board][courseIndex] = req.body;
-      fs.writeFile(DATA_FILE, JSON.stringify(db), (err) => {
-        if (err) {
-          res.status(500).send('Server error');
-          return;
-        }
-        res.json(db[board][courseIndex]);
-      });
-    } else {
-      res.status(404).send('Course not found');
-    }
-  });
+    const courseRef = db.collection('courses').doc(board).collection('items').doc(id);
+    await courseRef.set(req.body, { merge: true });
+    return res.json({ id, ...req.body });
+  } catch (error) {
+    return res.status(500).send('Internal Server Error');
+  }
 });
 
-app.get('/courses', (req, res) => {
-  fs.readFile(DATA_FILE, (err, data) => {
-    if (err) {
-      res.status(500).send('Server error');
-      return;
-    }
-    res.json(JSON.parse(data));
-  });
-});
-
+// Static file serving for Vue.js frontend
 app.use(express.static(path.join(__dirname, 'dist')));
-
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
