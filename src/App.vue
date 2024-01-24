@@ -2,7 +2,7 @@
   <div id="app">
     <NavBar />
     <router-view/>
-    <button @click="toggleAmogus" class="toggle-amogus">Toggle Amogus</button>
+        <button @click="toggleAmogus" :style="toggleButtonStyle" class="toggle-amogus">Toggle Amogus</button>
     <img v-for="amogus in amoguses" :key="amogus.id" :src="amogus.src" :class="amogus.class" :style="amogus.style">
   </div>
 </template>
@@ -22,6 +22,21 @@ export default {
       showAmogus: false
     };
   },
+  computed: {
+    toggleButtonStyle() {
+      return {
+        backgroundColor: this.showAmogus ? '#00D7C4' : 'grey',
+        color: 'white',
+        border: 'none',
+        padding: '10px 20px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px'
+      };
+    }
+  },
   methods: {
     createAmogus() {
       const id = Math.random().toString(36).substr(2, 9);
@@ -39,14 +54,10 @@ export default {
           [side]: '-100px' // Start from left or right
         }
       };
-      },
+    },
     toggleAmogus() {
-      if (this.showAmogus) {
-        this.amoguses = [];
-      } else {
-        this.amoguses = Array.from({ length: 5 }, this.createAmogus);
-      }
       this.showAmogus = !this.showAmogus;
+      this.amoguses = this.showAmogus ? Array.from({ length: 5 }, this.createAmogus) : [];
     }
   }
 }
