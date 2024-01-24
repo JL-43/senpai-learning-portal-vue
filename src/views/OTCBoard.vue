@@ -1,18 +1,54 @@
 <template>
-  <div class="otc-board">
-    <h1>EMEA S/4HANA for OTC Beginner</h1>
-    <!-- Placeholder content -->
-    <p>This is the OTC Beginner Board. Content will be added here.</p>
+    <div class="otc-board grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CourseCard 
+        v-for="course in courses" 
+        :key="course.id" 
+        :course="course"
+        @changeCompletion="toggleCompletion"
+      />
   </div>
 </template>
 
 <script>
+import CourseCard from '../components/CourseCard.vue';
+import axios from 'axios';
+
 export default {
-  name: 'OTCBoard',
-  // You can add data, methods, etc., here as needed
+  name: 'otcBoard',
+  components: {
+    CourseCard
+  },
+  data() {
+    return {
+      courses: []
+    };
+  },
+  created() {
+    axios.get('http://localhost:3000/courses/otcBoard')
+      .then(response => {
+        this.courses = response.data;
+      })
+      .catch(error => console.error(error));
+  },
+  methods: {
+    toggleCompletion(courseId) {
+      const courseIndex = this.courses.findIndex(c => c.id === courseId);
+      if (courseIndex !== -1) {
+        this.courses[courseIndex].completed = !this.courses[courseIndex].completed;
+        axios.put(`http://localhost:3000/courses/otcBoard/${courseId}`, this.courses[courseIndex])
+          .then(response => {
+            this.courses[courseIndex] = response.data;
+          })
+          .catch(error => console.error(error));
+      }
+    }
+  }
 }
 </script>
 
 <style>
-/* Styles for OTCBoard */
+/* Styles for otcBoard */
+.otc-board {
+  padding: 20px;
+}
 </style>
