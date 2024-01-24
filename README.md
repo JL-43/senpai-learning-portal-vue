@@ -33,7 +33,7 @@ npm install
 npm run serve
 ```
 
-### Compiles and run
+### Compiles and runs
 ```
 build with: npm run build
 run with: run node server.js

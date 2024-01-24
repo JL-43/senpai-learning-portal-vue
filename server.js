@@ -47,6 +47,16 @@ app.put('/courses/:board/:id', (req, res) => {
   });
 });
 
+app.get('/courses', (req, res) => {
+  fs.readFile(DATA_FILE, (err, data) => {
+    if (err) {
+      res.status(500).send('Server error');
+      return;
+    }
+    res.json(JSON.parse(data));
+  });
+});
+
 app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('/', (req, res) => {

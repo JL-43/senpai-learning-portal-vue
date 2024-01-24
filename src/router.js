@@ -1,6 +1,7 @@
 // src/router.js
 
 import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from './views/HomePage.vue';
 import GeneralBoard from './views/GeneralBoard.vue';
 import OTCBoard from './views/OTCBoard.vue';
 import SCMBoard from './views/SCMBoard.vue';
@@ -8,7 +9,12 @@ import SCMBoard from './views/SCMBoard.vue';
 const routes = [
   {
     path: '/',
-    name: 'general',
+    name: 'home',
+    component: HomePage
+  },
+  {
+    path: '/general-board',
+    name: 'generalBoard',
     component: GeneralBoard
   },
   {
