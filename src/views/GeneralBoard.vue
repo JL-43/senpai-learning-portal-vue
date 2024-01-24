@@ -3,8 +3,8 @@
     <CourseCard 
       v-for="course in courses" 
       :key="course.id" 
-      :course="course" 
-      @toggleCompletion="toggleCompletion(course)"
+      :course="course"
+      @changeCompletion="toggleCompletion"
     />
   </div>
 </template>
@@ -25,9 +25,12 @@ export default {
     }
   },
   methods: {
-    toggleCompletion(course) {
-      course.completed = !course.completed;
-      // Handle completion change
+    toggleCompletion(courseId) {
+      const course = this.courses.find(c => c.id === courseId);
+      if (course) {
+        course.completed = !course.completed;
+        // Additional logic here if needed
+      }
     }
   }
 }
