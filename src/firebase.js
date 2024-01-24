@@ -3,13 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project-authdomain",
-  projectId: "your-project-id",
-  storageBucket: "your-project-storage-bucket",
-  messagingSenderId: "your-messaging-sender-id",
-  appId: "your-app-id",
-  measurementId: "your-measurement-id"
+  apiKey: "AIzaSyDSDHDF7DtfQA7X9zIXmdwIH4q7UW28fuY",
+  authDomain: "senpai-learning-portal-vue.firebaseapp.com",
+  projectId: "senpai-learning-portal-vue",
+  storageBucket: "senpai-learning-portal-vue.appspot.com",
+  messagingSenderId: "187487976293",
+  appId: "1:187487976293:web:fd020cf79b6450c6983f8c",
+  measurementId: "G-SZKJJBGBN8"
 };
 
 // Initialize Firebase

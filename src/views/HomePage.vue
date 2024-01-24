@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { db } from '@/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default {
   name: 'HomePage',
@@ -28,15 +29,21 @@ export default {
       progressData: []
     };
   },
-  created() {
-    axios.get('http://localhost:3000/courses')
-      .then(response => {
-        this.progressData = Object.keys(response.data).map(key => ({
-          name: key,
-          courses: response.data[key]
-        }));
-      })
-      .catch(error => console.error(error));
+  async created() {
+    try {
+      const boards = ['generalBoard', 'otcBoard', 'scmBoard']; // Add more boards as needed
+      for (const boardName of boards) {
+        const coursesCollection = collection(db, 'courses', boardName, 'items');
+        const querySnapshot = await getDocs(coursesCollection);
+        const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        this.progressData.push({
+          name: boardName,
+          courses: courses
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   },
   methods: {
     calculateOverallProgress(courses) {

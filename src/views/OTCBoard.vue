@@ -10,8 +10,9 @@
 </template>
 
 <script>
+import { db } from '@/firebase'; // Import the Firebase instance
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import CourseCard from '../components/CourseCard.vue';
-import axios from 'axios';
 
 export default {
   name: 'otcBoard',
@@ -23,23 +24,29 @@ export default {
       courses: []
     };
   },
-  created() {
-    axios.get('http://localhost:3000/courses/otcBoard')
-      .then(response => {
-        this.courses = response.data;
-      })
-      .catch(error => console.error(error));
+  async created() {
+    try {
+      const coursesCollection = collection(db, 'courses', 'otcBoard', 'items');
+      const querySnapshot = await getDocs(coursesCollection);
+      this.courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
   },
   methods: {
-    toggleCompletion(courseId) {
+    async toggleCompletion(courseId) {
       const courseIndex = this.courses.findIndex(c => c.id === courseId);
       if (courseIndex !== -1) {
-        this.courses[courseIndex].completed = !this.courses[courseIndex].completed;
-        axios.put(`http://localhost:3000/courses/otcBoard/${courseId}`, this.courses[courseIndex])
-          .then(response => {
-            this.courses[courseIndex] = response.data;
-          })
-          .catch(error => console.error(error));
+        const course = this.courses[courseIndex];
+        course.completed = !course.completed;
+        
+        try {
+          const courseRef = doc(db, 'courses', 'otcBoard', 'items', courseId);
+          await updateDoc(courseRef, { completed: course.completed });
+          this.courses[courseIndex] = { ...course }; // Update the local array
+        } catch (error) {
+          console.error('Error updating course:', error);
+        }
       }
     }
   }
@@ -51,10 +58,10 @@ export default {
 .otc-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px; /* Reduced gap size between cards */
+  gap: 10px;
   justify-content: center;
   justify-items: center;
   align-items: start;
-  padding: 50px; /* Increased top padding for more space from the header */
+  padding: 50px;
 }
 </style>
