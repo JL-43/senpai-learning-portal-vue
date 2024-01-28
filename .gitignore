@@ -3,6 +3,7 @@ node_modules
 /dist
 senpai-learning-portal-vue-firebase-adminsdk-1a519-1991a70234.json
 
+
 # local env files
 .env.local
 .env.*.local

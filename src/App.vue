@@ -137,6 +137,7 @@ export default {
 
 .custom-background {
   position: fixed;
+  bottom: -50px;
   width: 400px;
   height: 400px;
   background-size: cover;

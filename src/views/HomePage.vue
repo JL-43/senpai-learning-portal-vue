@@ -1,14 +1,14 @@
 <template>
   <div class="home-page">
     <h1 class="main-header">Course Progress Overview</h1>
-    <div v-for="board in progressData" :key="board.name" class="board-progress">
+    <div v-for="board in progressData" :key="board.name" class="board-progress" @click="navigateToBoard(board.name)">
       <h2 class="sub-header">{{ formatBoardTitle(board.name) }}</h2>
-        <ul>
-          <li v-for="course in board.courses" :key="course.id" class="course-item">
-            <span v-if="course.completed" class="checkmark">&#10004;</span>
-            <span :class="['course-title', {'completed-course': course.completed }]">{{ course.title }}</span>
-          </li>
-        </ul>
+      <ul>
+        <li v-for="course in board.courses" :key="course.id" class="course-item">
+          <span v-if="course.completed" class="checkmark">&#10004;</span>
+          <span :class="['course-title', {'completed-course': course.completed }]">{{ course.title }}</span>
+        </li>
+      </ul>
       <div class="progress">
         <div class="progress-inner" :style="{ width: calculateOverallProgress(board.courses) + '%' }">
           <span class="progress-text">{{ calculateOverallProgress(board.courses) }}%</span>
@@ -50,9 +50,6 @@ export default {
       const completed = courses.filter(course => course.completed).length;
       return Math.round((completed / courses.length) * 100);
     },
-    formatBoardName(name) {
-      return name.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();
-    },
     formatBoardTitle(boardName) {
       const nameMap = {
         'generalBoard': 'General Learning Board',
@@ -61,6 +58,21 @@ export default {
         // Add more mappings as needed
       };
       return nameMap[boardName] || boardName; // Fallback to the original name if not found in map
+    },
+    navigateToBoard(boardName) {
+      let routeName = '';
+      if (boardName === 'generalBoard') {
+        routeName = 'generalBoard';
+      } else if (boardName === 'otcBoard') {
+        routeName = 'otcBoard';
+      } else if (boardName === 'scmBoard') {
+        routeName = 'scmBoard';
+      }
+      // Add more conditions if there are more boards
+
+      if (routeName) {
+        this.$router.push({ name: routeName });
+      }
     }
   }
 };
@@ -69,14 +81,12 @@ export default {
 <style>
 .home-page {
   padding: 40px;
-  /* Increase padding */
 }
 
 .main-header {
   font-size: 2em;
   margin-bottom: 20px;
   text-align: center;
-  /* Center align main header */
 }
 
 .sub-header {
@@ -86,16 +96,12 @@ export default {
 
 .board-progress {
   background-color: #fff;
-  /* White background */
   border-radius: 10px;
-  /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Shadow similar to CourseCard */
   padding: 20px;
   max-width: 800px;
-  /* Match CourseCard width */
   margin: 20px auto;
-  /* Center align the card */
+  cursor: pointer;
 }
 
 .progress {
@@ -112,8 +118,8 @@ export default {
   height: 100%;
   transition: width 0.3s ease-in-out;
   display: flex;
-  align-items: center; /* Align text vertically */
-  justify-content: center; /* Align text horizontally */
+  align-items: center;
+  justify-content: center;
 }
 
 .progress-text {
@@ -129,20 +135,19 @@ export default {
 
 .course-title {
   flex-grow: 1;
-  margin-left: 30px; /* Padding for text alignment */
+  margin-left: 30px;
 }
 
 .completed-course .course-title {
-  margin-left: 0; /* Remove additional padding when completed */
+  margin-left: 0;
 }
-
 
 .completed-course {
   color: green;
 }
 
 .checkmark {
-  margin-right: -12px; /* Space between checkmark and text */
+  margin-right: -12px;
   color: green;
 }
 </style>
