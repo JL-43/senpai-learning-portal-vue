@@ -1,8 +1,11 @@
 <template>
   <div id="app">
+    <div class="custom-background" :style="{ backgroundImage: 'url(' + sarinaImageUrl + ')' }"></div>
+    
     <NavBar />
     <router-view/>
-        <button @click="toggleAmogus" :style="toggleButtonStyle" class="toggle-amogus">Toggle Amogus</button>
+    
+    <button @click="toggleAmogus" :style="toggleButtonStyle" class="toggle-amogus">Toggle Amogus</button>
     <img v-for="amogus in amoguses" :key="amogus.id" :src="amogus.src" :class="amogus.class" :style="amogus.style">
   </div>
 </template>
@@ -10,6 +13,7 @@
 <script>
 import NavBar from './components/NavBar.vue'
 import amogusImage from '@/assets/transparent-angel-amogus-small.png';
+import sarinaImage from '@/assets/sarina.png';
 
 export default {
   name: 'App',
@@ -19,6 +23,7 @@ export default {
   data() {
     return {
       amoguses: [],
+      sarinaImageUrl: sarinaImage,
       showAmogus: false
     };
   },
@@ -67,6 +72,18 @@ export default {
 .amogus {
   position: fixed;
   max-height: 200px;
+}
+
+.custom-background {
+  position: fixed; /* Fixed position */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Full viewport height */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1; /* Behind all other content */
 }
 
 @keyframes moveAmogusFromLeft {

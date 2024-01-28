@@ -11,7 +11,7 @@
 
 <script>
 import { db } from '@/firebase'; // Import the Firebase instance
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, doc, updateDoc, onSnapshot } from 'firebase/firestore';
 import CourseCard from '../components/CourseCard.vue';
 
 export default {
@@ -21,16 +21,21 @@ export default {
   },
   data() {
     return {
-      courses: []
+      courses: [],
+      unsubscribe: null // Store the unsubscribe function for the snapshot listener
     };
   },
-  async created() {
-    try {
-      const coursesCollection = collection(db, 'courses', 'generalBoard', 'items');
-      const querySnapshot = await getDocs(coursesCollection);
+  created() {
+    const coursesCollection = collection(db, 'courses', 'generalBoard', 'items');
+    this.unsubscribe = onSnapshot(coursesCollection, (querySnapshot) => {
       this.courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    } catch (error) {
+    }, (error) => {
       console.error('Error fetching courses:', error);
+    });
+  },
+  beforeUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
     }
   },
   methods: {
@@ -42,6 +47,8 @@ export default {
         
         try {
           const courseRef = doc(db, 'courses', 'generalBoard', 'items', courseId);
+          console.log(courseRef.path)
+          console.log("From Dev!")
           await updateDoc(courseRef, { completed: course.completed });
           this.courses[courseIndex] = { ...course }; // Update the local array
         } catch (error) {
