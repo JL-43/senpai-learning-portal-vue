@@ -9,7 +9,7 @@
 
 <style>
 nav.custom-navbar {
-  background-color: #0f4f07;
+  background-color: #002b36;
   font-family: 'Roboto', sans-serif;
 }
 </style>
