@@ -15,5 +15,4 @@ nav {
 </style>
 
 <style>
-/* NavBar styles */
 </style>

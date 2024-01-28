@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { db } from '@/firebase'; // Import the Firebase instance
-import { collection, doc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { db } from '@/firebase';
+import { collection, doc, updateDoc, getDocs } from 'firebase/firestore';
 import CourseCard from '../components/CourseCard.vue';
 
 export default {
@@ -21,24 +21,22 @@ export default {
   },
   data() {
     return {
-      courses: [],
-      unsubscribe: null // Store the unsubscribe function for the snapshot listener
+      courses: []
     };
   },
-  created() {
-    const coursesCollection = collection(db, 'courses', 'generalBoard', 'items');
-    this.unsubscribe = onSnapshot(coursesCollection, (querySnapshot) => {
-      this.courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    }, (error) => {
-      console.error('Error fetching courses:', error);
-    });
-  },
-  beforeUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
+  async created() {
+    await this.fetchCourses();
   },
   methods: {
+    async fetchCourses() {
+      try {
+        const coursesCollection = collection(db, 'courses', 'generalBoard', 'items');
+        const querySnapshot = await getDocs(coursesCollection);
+        this.courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    },
     async toggleCompletion(courseId) {
       const courseIndex = this.courses.findIndex(c => c.id === courseId);
       if (courseIndex !== -1) {
@@ -47,10 +45,8 @@ export default {
         
         try {
           const courseRef = doc(db, 'courses', 'generalBoard', 'items', courseId);
-          console.log(courseRef.path)
-          console.log("From Dev!")
           await updateDoc(courseRef, { completed: course.completed });
-          this.courses[courseIndex] = { ...course }; // Update the local array
+          this.courses[courseIndex] = { ...course };
         } catch (error) {
           console.error('Error updating course:', error);
         }
