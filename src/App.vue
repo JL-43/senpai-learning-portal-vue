@@ -4,8 +4,9 @@
     
     <NavBar />
     <router-view/>
-    
-    <button @click="toggleAmogus" :style="toggleButtonStyle" class="toggle-amogus">Toggle Amogus</button>
+
+    <button @click="toggleFriendster" :style="toggleFriendsterButtonStyle" class="toggle-friendster">Toggle Friendster</button>
+    <button @click="toggleAmogus" :style="toggleAmogusButtonStyle" class="toggle-amogus">Toggle Amogus</button>
     <img v-for="amogus in amoguses" :key="amogus.id" :src="amogus.src" :class="amogus.class" :style="amogus.style">
   </div>
 </template>
@@ -24,11 +25,18 @@ export default {
     return {
       amoguses: [],
       sarinaImageUrl: sarinaImage,
-      showAmogus: false
+      showAmogus: false,
+      friendsterMode: false,
+      songs: [
+        require('@/assets/music/yourguardianangel.mp3'),
+        require('@/assets/music/catandmouse.mp3'),
+        require('@/assets/music/idontloveyou.mp3'),
+      ],
+      currentAudio: null,
     };
   },
   computed: {
-    toggleButtonStyle() {
+    toggleAmogusButtonStyle() {
       return {
         backgroundColor: this.showAmogus ? '#00D7C4' : 'grey',
         color: 'white',
@@ -38,6 +46,19 @@ export default {
         cursor: 'pointer',
         position: 'fixed',
         bottom: '20px',
+        right: '25px'
+      };
+    },
+    toggleFriendsterButtonStyle() {
+      return {
+        backgroundColor: this.friendsterMode ? '#2DA11E' : 'grey',
+        color: 'white',
+        border: 'none',
+        padding: '10px 20px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        position: 'fixed',
+        bottom: '80px',
         right: '20px'
       };
     }
@@ -63,6 +84,21 @@ export default {
     toggleAmogus() {
       this.showAmogus = !this.showAmogus;
       this.amoguses = this.showAmogus ? Array.from({ length: 5 }, this.createAmogus) : [];
+    },
+    toggleFriendster() {
+      this.friendsterMode = !this.friendsterMode;
+
+      if (this.friendsterMode) {
+        if (this.currentAudio) {
+          this.currentAudio.pause();
+        }
+        const randomSong = this.songs[Math.floor(Math.random() * this.songs.length)];
+        this.currentAudio = new Audio(randomSong);
+        this.currentAudio.play();
+      } else if (this.currentAudio) {
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0;
+      }
     }
   }
 }
@@ -74,16 +110,40 @@ export default {
   max-height: 200px;
 }
 
+@keyframes scrollBackground {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
 .custom-background {
-  position: fixed; /* Fixed position */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%; /* Full viewport height */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: -1; /* Behind all other content */
+  height: 100%;
+  background-image: url('@/assets/sarina.png');
+  background-size: 400px 400px; /* size of your image */
+  /* background-repeat: repeat-x; Repeat image horizontally */
+  animation: scrollBackground 18s linear infinite; /* Adjust '10s' to control speed */
+  z-index: -1;
+}
+
+.custom-background::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%; /* Twice the width to include space */
+  height: 100%;
+  background-image: url('@/assets/sarina.png');
+  background-size: 1000px 1000px;
+  background-repeat: repeat-x;
+  animation: scrollBackground 18s linear infinite;
 }
 
 @keyframes moveAmogusFromLeft {
@@ -103,6 +163,12 @@ export default {
   bottom: 20px;
   right: 20px;
   /* Style your button as needed */
+}
+
+.toggle-friendster {
+  position: fixed;
+  bottom: 60px; /*Adjust position so it doesn't overlap with the Amogus button*/
+  right: 20px;
 }
 
 body {
