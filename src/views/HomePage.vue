@@ -14,6 +14,9 @@
           <span class="progress-text">{{ calculateOverallProgress(board.courses) }}%</span>
         </div>
       </div>
+      <div class="badge-container">
+        <img :src="getBadgeImage(board.name, calculateOverallProgress(board.courses))" class="badge-image" alt="Board Badge" />
+      </div>
     </div>
   </div>
 </template>
@@ -30,19 +33,15 @@ export default {
     };
   },
   async created() {
-    try {
-      const boards = ['generalBoard', 'otcBoard', 'scmBoard']; // Add more boards as needed
-      for (const boardName of boards) {
-        const coursesCollection = collection(db, 'courses', boardName, 'items');
-        const querySnapshot = await getDocs(coursesCollection);
-        const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        this.progressData.push({
-          name: boardName,
-          courses: courses
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    const boards = ['generalBoard', 'otcBoard', 'scmBoard'];
+    for (const boardName of boards) {
+      const coursesCollection = collection(db, 'courses', boardName, 'items');
+      const querySnapshot = await getDocs(coursesCollection);
+      const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      this.progressData.push({
+        name: boardName,
+        courses: courses
+      });
     }
   },
   methods: {
@@ -55,25 +54,25 @@ export default {
         'generalBoard': 'General Learning Board',
         'otcBoard': 'EMEA S/4HANA for OTC Beginner',
         'scmBoard': 'EMEA S/4HANA for SCM Beginner'
-        // Add more mappings as needed
       };
-      return nameMap[boardName] || boardName; // Fallback to the original name if not found in map
+      return nameMap[boardName] || boardName;
     },
     navigateToBoard(boardName) {
-      let routeName = '';
-      if (boardName === 'generalBoard') {
-        routeName = 'generalBoard';
-      } else if (boardName === 'otcBoard') {
-        routeName = 'otcBoard';
-      } else if (boardName === 'scmBoard') {
-        routeName = 'scmBoard';
+      this.$router.push({ name: boardName });
+    },
+    getBadgeImage(boardName, progress) {
+      const lowerCaseBoardName = boardName.toLowerCase();
+      try {
+        if (progress === 100) {
+          return require(`@/assets/${lowerCaseBoardName}.png`);
+        } else {
+          return require(`@/assets/${lowerCaseBoardName}_blackwhite.png`);
+        }
+      } catch (e) {
+        console.error(`Error loading badge image for ${boardName}:`, e);
+        return ''; // Fallback image or empty string
       }
-      // Add more conditions if there are more boards
-
-      if (routeName) {
-        this.$router.push({ name: routeName });
-      }
-    }
+    },
   }
 };
 </script>
@@ -102,6 +101,7 @@ export default {
   max-width: 800px;
   margin: 20px auto;
   cursor: pointer;
+  position: relative;
 }
 
 .progress {
@@ -138,16 +138,27 @@ export default {
   margin-left: 30px;
 }
 
-.completed-course .course-title {
-  margin-left: 0;
-}
-
 .completed-course {
   color: green;
 }
 
 .checkmark {
-  margin-right: -12px;
   color: green;
+  margin-right: -12px;
+}
+
+.badge-container {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 225px;
+  overflow: hidden;
+}
+
+.badge-image {
+  width: 100%;
+  height: auto;
 }
 </style>
