@@ -4,6 +4,7 @@ node_modules
 /src_old
 /src/assets_old
 senpai-learning-portal-vue-firebase-adminsdk-1a519-1991a70234.json
+*.psd
 
 
 # local env files

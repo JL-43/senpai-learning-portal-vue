@@ -1,8 +1,14 @@
 <template>
 	<div class="home-page">
 		<header class="main-header">
-			<div class="logo">
-				<img src="path/to/your/logo.png" alt="Logo" />
+			<div class="logo-container">
+				<img
+					class="logo"
+					src="@/assets/LOGO-greenonlyfr.png"
+					alt="Logo"
+					width="385"
+					height="325"
+				/>
 			</div>
 			<button class="hamburger-menu">
 				<span></span>
@@ -13,7 +19,14 @@
 
 		<section class="hero-section" id="section1">
 			<div class="hero-content">
-				<h1 class="hero-title">SAP <span class="animated-sap">SAP</span></h1>
+				<h1 class="hero-title"><span class="animated-sap">SAP</span></h1>
+				<div class="rounded-lines-area"></div>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente,
+					expedita temporibus quasi inventore esse labore aliquid quas nostrum
+					tenetur, soluta deleniti? Minus dicta, quaerat eius earum nisi
+					necessitatibus dolorem similique.
+				</p>
 				<div class="rounded-lines-area"></div>
 			</div>
 		</section>
@@ -119,6 +132,18 @@ body {
 	font-size: 16px; /* Base font size */
 }
 
+.logo-container {
+	position: absolute;
+	top: 20px; /* Adjust these values as needed */
+	left: 30px; /* Adjust these values as needed */
+	z-index: 10; /* Ensure it's above other content */
+}
+
+.logo {
+	max-width: 100%; /* Make sure it scales within the container */
+	height: auto; /* Maintain aspect ratio */
+}
+
 :root {
 	--color-white: #f1f6ef;
 	--color-green: #bcd4ac;
@@ -128,6 +153,7 @@ body {
 }
 
 .main-header {
+	position: relative; /* Add this */
 	background-color: var(--color-white);
 	padding: 20px 40px;
 	display: flex;
