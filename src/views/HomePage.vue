@@ -21,7 +21,7 @@
 			<div class="hero-content">
 				<div class="text-with-border">
 					<div class="text-content">
-						<h1>become a SAP master!</h1>
+						<h1>become an SAP master!</h1>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -322,7 +322,7 @@ a {
 		minmax(300px, 1fr)
 	); /* Responsive layout */
 	gap: 10px;
-	margin: 140px 120px; /* margin from top, margin from each other */
+	margin: 140px 200px; /* margin from top, margin from each other */
 	grid-template-columns: repeat(
 		auto-fit,
 		minmax(250px, 1fr)
@@ -333,15 +333,15 @@ a {
 	background-color: var(--color-white);
 	border-radius: 40px;
 	margin-left: 100px;
-	margin-top: 40px;
+	margin-top: 90px;
 	padding: 55px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-	min-height: 600px;
-	max-height: 600px;
-	min-width: 500px;
-	max-width: 500px;
+	min-height: 500px;
+	max-height: 500px;
+	min-width: 450px;
+	max-width: 450px;
 	font-family: 'Comfortaa', sans-serif;
-	font-size: 23px;
+	font-size: 18px;
 	font-weight: 600; /* Choose a weight */
 	z-index: 1;
 	box-shadow: -18px 20px 10px rgba(0, 0, 0, 0.2);
@@ -373,8 +373,8 @@ body.menu-open .overlay {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	width: 90px; /* width of hamburger lines */
-	height: 75px; /* compression of hamburger lines */
+	width: 78px; /* width of hamburger lines */
+	height: 72px; /* compression of hamburger lines */
 	background: transparent;
 	border: none;
 	cursor: pointer;
@@ -385,7 +385,7 @@ body.menu-open .overlay {
 .hamburger-line {
 	display: block;
 	width: 100%;
-	height: 19px; /* thickness of the lines */
+	height: 15px; /* thickness of the lines */
 	background: var(--color-dark);
 	border-radius: 10px;
 	transition: all 0.3s ease-in-out;
@@ -488,9 +488,9 @@ body.menu-open .overlay {
 .large-image-container {
 	position: absolute;
 	right: 0; /* Align to the right edge */
-	top: -170px; /* Adjust for seeping into Section 2, increase/decrease for more/less overlap */
+	top: -175px; /* Adjust for seeping into Section 2, increase/decrease for more/less overlap */
 	width: 50%; /* Adjust based on desired coverage */
-	height: calc(100% + 170px); /* Increase height to cover the shifted part */
+	height: calc(100% + 175px); /* Increase height to cover the shifted part */
 	z-index: 1; /* Below the text and cloud images */
 	overflow: hidden; /* Hide parts of the image that overflow the container */
 }
