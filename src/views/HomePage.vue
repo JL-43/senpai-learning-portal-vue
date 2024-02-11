@@ -139,6 +139,14 @@ body {
 	background-color: #f8f8f8;
 }
 
+body,
+button,
+a {
+	/* Use the custom cursor for the body, buttons, and anchor tags */
+	cursor: url('@/assets/custom-cursor-small.png') 16 16, auto;
+	/* 16 16 is the coordinate of the cursor's hot spot (the point that actually "clicks" on links/buttons) */
+}
+
 /* Home Page Styles */
 .home-page {
 	font-size: 16px; /* Base font size */
