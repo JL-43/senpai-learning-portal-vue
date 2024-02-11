@@ -1,24 +1,51 @@
 <template>
-  <div class="home-page">
-    <h1 class="main-header">Course Progress Overview</h1>
-    <div v-for="board in progressData" :key="board.name" class="board-progress" @click="navigateToBoard(board.name)">
-      <h2 class="sub-header">{{ formatBoardTitle(board.name) }}</h2>
-      <ul>
-        <li v-for="course in board.courses" :key="course.id" class="course-item">
-          <span v-if="course.completed" class="checkmark">&#10004;</span>
-          <span :class="['course-title', {'completed-course': course.completed }]">{{ course.title }}</span>
-        </li>
-      </ul>
-      <div class="progress">
-        <div class="progress-inner" :style="{ width: calculateOverallProgress(board.courses) + '%' }">
-          <span class="progress-text">{{ calculateOverallProgress(board.courses) }}%</span>
-        </div>
-      </div>
-      <div class="badge-container">
-        <img :src="getBadgeImage(board.name, calculateOverallProgress(board.courses))" class="badge-image" alt="Board Badge" />
-      </div>
-    </div>
-  </div>
+	<div class="home-page">
+		<header class="main-header">
+			<div class="logo">
+				<img src="path/to/your/logo.png" alt="Logo" />
+			</div>
+			<button class="hamburger-menu">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</header>
+
+		<section class="hero-section" id="section1">
+			<div class="hero-content">
+				<h1 class="hero-title">SAP <span class="animated-sap">SAP</span></h1>
+				<div class="rounded-lines-area"></div>
+			</div>
+		</section>
+
+		<section class="learning-boards" id="section2">
+			<img src="@/assets/cloud-white.png" class="cloud-image-top-left" />
+			<img src="@/assets/cloud-green.png" class="cloud-image-bottom-left" />
+			<h1 class="boards-title">Learning Boards</h1>
+			<div class="board-grid">
+				<div
+					class="learning-card"
+					v-for="board in progressData"
+					:key="board.name"
+				>
+					<div class="card-header">{{ formatBoardTitle(board.name) }}</div>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quod
+						ipsum quam quaerat autem saepe optio ad itaque sed numquam? Saepe
+						praesentium quos maxime tenetur error rerum, perspiciatis maiores
+						aut.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="founders-section" id="section3">
+			<div class="founders-image">
+				<img src="path/to/founders-image.png" alt="Founders" />
+			</div>
+			<div class="founders-info"></div>
+		</section>
+	</div>
 </template>
 
 <script>
@@ -26,139 +53,176 @@ import { db } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
 export default {
-  name: 'HomePage',
-  data() {
-    return {
-      progressData: []
-    };
-  },
-  async created() {
-    const boards = ['generalBoard', 'otcBoard', 'scmBoard'];
-    for (const boardName of boards) {
-      const coursesCollection = collection(db, 'courses', boardName, 'items');
-      const querySnapshot = await getDocs(coursesCollection);
-      const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      this.progressData.push({
-        name: boardName,
-        courses: courses
-      });
-    }
-  },
-  methods: {
-    calculateOverallProgress(courses) {
-      const completed = courses.filter(course => course.completed).length;
-      return Math.round((completed / courses.length) * 100);
-    },
-    formatBoardTitle(boardName) {
-      const nameMap = {
-        'generalBoard': 'General Learning Board',
-        'otcBoard': 'EMEA S/4HANA for OTC Beginner',
-        'scmBoard': 'EMEA S/4HANA for SCM Beginner'
-      };
-      return nameMap[boardName] || boardName;
-    },
-    navigateToBoard(boardName) {
-      this.$router.push({ name: boardName });
-    },
-    getBadgeImage(boardName, progress) {
-      const lowerCaseBoardName = boardName.toLowerCase();
-      try {
-        if (progress === 100) {
-          return require(`@/assets/${lowerCaseBoardName}.png`);
-        } else {
-          return require(`@/assets/${lowerCaseBoardName}_blackwhite.png`);
-        }
-      } catch (e) {
-        console.error(`Error loading badge image for ${boardName}:`, e);
-        return ''; // Fallback image or empty string
-      }
-    },
-  }
+	name: 'HomePage',
+	data() {
+		return {
+			progressData: [],
+		};
+	},
+	async created() {
+		const boards = ['generalBoard', 'otcBoard', 'scmBoard'];
+		for (const boardName of boards) {
+			const coursesCollection = collection(db, 'courses', boardName, 'items');
+			const querySnapshot = await getDocs(coursesCollection);
+			const courses = querySnapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			this.progressData.push({
+				name: boardName,
+				courses: courses,
+			});
+		}
+	},
+	methods: {
+		calculateOverallProgress(courses) {
+			const completed = courses.filter((course) => course.completed).length;
+			return Math.round((completed / courses.length) * 100);
+		},
+		formatBoardTitle(boardName) {
+			const nameMap = {
+				generalBoard: 'general',
+				otcBoard: 'sales',
+				scmBoard: 'supply chain',
+			};
+			return nameMap[boardName] || boardName;
+		},
+		navigateToBoard(boardName) {
+			this.$router.push({ name: boardName });
+		},
+		getBadgeImage(boardName, progress) {
+			const lowerCaseBoardName = boardName.toLowerCase();
+			try {
+				if (progress === 100) {
+					return require(`@/assets/${lowerCaseBoardName}.png`);
+				} else {
+					return require(`@/assets/${lowerCaseBoardName}_blackwhite.png`);
+				}
+			} catch (e) {
+				console.error(`Error loading badge image for ${boardName}:`, e);
+				return ''; // Fallback image or empty string
+			}
+		},
+	},
 };
 </script>
 
 <style>
+/* App Level styles */
+body {
+	font-family: 'San Francisco', sans-serif; /* If you're using Apple's font */
+	background-color: #f8f8f8;
+}
+
+/* Home Page Styles */
 .home-page {
-  padding: 40px;
+	font-size: 16px; /* Base font size */
+}
+
+:root {
+	--color-white: #f1f6ef;
+	--color-green: #bcd4ac;
+	--color-dark: #293133;
+	--color-gray: #9da1aa;
+	--color-text-dark: #282828;
 }
 
 .main-header {
-  font-size: 2em;
-  margin-bottom: 20px;
-  text-align: center;
+	background-color: var(--color-white);
+	padding: 20px 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.sub-header {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+.hero-section {
+	background-color: var(--color-white);
+	min-height: 100vh;
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 60px;
 }
 
-.board-progress {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 800px;
-  margin: 20px auto;
-  cursor: pointer;
-  position: relative;
+.cloud-image-top-left {
+	position: absolute;
+	top: -380px; /* Adjust offsets as needed */
+	left: 0px;
+	z-index: 1;
 }
 
-.progress {
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  height: 20px;
-  margin-top: 30px;
-  position: relative;
+.cloud-image-bottom-left {
+	position: absolute;
+	bottom: -380px; /* Adjust offsets as needed */
+	left: 0px;
 }
 
-.progress-inner {
-  background: linear-gradient(to right, #98FB98, #32CD32);
-  border-radius: 10px;
-  height: 100%;
-  transition: width 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hero-title {
+	color: var(--color-text-dark);
+	font-size: 3rem;
+	font-weight: bold;
+	margin-bottom: 20px;
 }
 
-.progress-text {
-  color: white;
-  font-weight: bold;
+.learning-boards {
+	background-color: var(--color-green);
+	min-height: 100vh;
+	position: relative;
 }
 
-.course-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+.boards-title {
+	color: var(--color-white);
 }
 
-.course-title {
-  flex-grow: 1;
-  margin-left: 30px;
+.board-grid {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(300px, 1fr)
+	); /* Responsive layout */
+	gap: 10px;
+	margin: 140px 120px; /* margin from top, margin from each other */
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(250px, 1fr)
+	); /* Smaller min-width */
 }
 
-.completed-course {
-  color: green;
+.learning-card {
+	background-color: var(--color-white);
+	border-radius: 40px;
+	margin-left: 100px;
+	margin-top: 40px;
+	padding: 55px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+	min-height: 600px;
+	max-height: 600px;
+	min-width: 500px;
+	max-width: 500px;
+	font-family: 'Comfortaa', sans-serif;
+	font-size: 23px;
+	font-weight: 600; /* Choose a weight */
+	z-index: 1;
+	box-shadow: -18px 20px 10px rgba(0, 0, 0, 0.2);
 }
 
-.checkmark {
-  color: green;
-  margin-right: -12px;
+.card-header {
+	background-color: var(--color-green);
+	border-radius: 40px;
+	padding: 15px;
+	margin-bottom: 20px;
+	text-align: center;
+	font-family: 'Work Sans', sans-serif;
+	font-size: 2.2em;
+	font-weight: 600;
+	color: var(--color-text-dark);
+	z-index: 2;
 }
 
-.badge-container {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  width: 200px;
-  height: 225px;
-  overflow: hidden;
-}
-
-.badge-image {
-  width: 100%;
-  height: auto;
+.founders-section {
+	background-color: var(--color-dark);
+	min-height: 100vh;
 }
 </style>
