@@ -91,6 +91,13 @@
 		<transition name="fade">
 			<div class="overlay" v-if="isMenuOpen"></div>
 		</transition>
+		<footer class="site-footer">
+			<img src="@/assets/plants.png" alt="Footer Image" class="footer-image" />
+			<div class="footer-content">
+				<div class="footer-text">🐼 all rights reserved © 2024 🐼</div>
+				<div class="additional-text">di ko na alam lalagay</div>
+			</div>
+		</footer>
 	</div>
 </template>
 
@@ -162,10 +169,11 @@ export default {
 
 :root {
 	--color-white: #f1f6ef;
-	--color-green: #bcd4ac;
+	--color-green: #b7cfa8;
 	--color-dark: #293133;
 	--color-gray: #9da1aa;
 	--color-text-dark: #282828;
+	--color-footer: #282828;
 }
 
 body {
@@ -286,6 +294,7 @@ a {
 	position: absolute;
 	bottom: -380px; /* Adjust offsets as needed */
 	left: 0px;
+	z-index: 2;
 }
 
 .hero-title {
@@ -350,11 +359,6 @@ a {
 	z-index: 2;
 }
 
-.founders-section {
-	background-color: var(--color-dark);
-	min-height: 100vh;
-}
-
 body.menu-open .overlay {
 	display: block;
 	opacity: 1;
@@ -413,14 +417,20 @@ body.menu-open .overlay {
 	padding: 60px;
 	position: relative; /* Needed for absolute positioning of the large image */
 	color: var(--color-white); /* Ensures text is white */
+	z-index: 2; /* Adjust as necessary to stack correctly */
+	overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .section-title {
 	color: var(--color-white);
-	margin-bottom: 40px;
-	font-size: 5em;
+	margin-top: -40px;
+	margin-bottom: 25px;
+	font-size: 6.5em;
 	font-family: 'Work Sans', sans-serif; /* Your custom font */
 	font-weight: 600;
+	padding-left: 150px;
+	position: relative;
+	z-index: 3;
 }
 
 .founder-info h1 {
@@ -447,15 +457,14 @@ body.menu-open .overlay {
 	background-color: transparent; /* Transparent background */
 	display: flex;
 	align-items: center;
-	gap: 20px;
-	padding: 20px;
-	border-radius: 10px;
+	gap: 50px; /* gap between image and titles */
+	padding: 10px; /* padding between founder cards */
+	padding-left: 230px;
 }
 
 .founder-image {
-	width: 100px; /* Adjust as needed */
-	height: 100px; /* Adjust as needed */
-	border-radius: 50%; /* Circular image */
+	width: 270px; /* Adjust as needed */
+	height: 270px; /* Adjust as needed */
 	object-fit: cover;
 }
 
@@ -477,15 +486,57 @@ body.menu-open .overlay {
 
 .large-image-container {
 	position: absolute;
-	right: -600px;
-	top: -5px; /* Adjust so the top part touches Section 2 */
-	z-index: 1; /* Ensure it's below the cards */
+	right: 0; /* Align to the right edge */
+	top: -170px; /* Adjust for seeping into Section 2, increase/decrease for more/less overlap */
+	width: 50%; /* Adjust based on desired coverage */
+	height: calc(100% + 170px); /* Increase height to cover the shifted part */
+	z-index: 1; /* Below the text and cloud images */
+	overflow: hidden; /* Hide parts of the image that overflow the container */
 }
 
 .large-image {
-	min-height: 100vh;
-	max-width: 40%; /* Adjust to extend to the edge of the right side */
-	height: auto; /* Maintain aspect ratio */
-	object-fit: cover; /* Ensure image covers the area */
+	width: 100%; /* Ensure the image fills the container's width */
+	height: 100%; /* Cover the adjusted container height */
+	object-fit: cover; /* Ensure the image covers the container */
+	object-position: right top; /* Adjust the focus of the image */
+}
+
+/* Footer styles */
+.site-footer {
+	background-color: var(--color-footer);
+	color: white; /* Adjust as needed */
+	padding: 20px 40px; /* Adjust padding as needed */
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.footer-image {
+	position: absolute;
+	bottom: 50px; /* Adjusted to sit at the bottom of the footer */
+	left: 0;
+	width: 52%; /* Stretches the image across the footer */
+	max-height: 1500px; /* Limit the height of the image */
+	object-fit: cover; /* Ensures the image covers the area properly */
+	z-index: 10; /* Ensure it doesn't overlap content */
+}
+
+.footer-content {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.footer-text,
+.additional-text {
+	font-family: 'Comfortaa', sans-serif; /* Match the learning card text font */
+	font-size: 23px; /* Match the learning card text size */
+	font-weight: 600; /* Match the learning card text weight */
+}
+
+.additional-text {
+	text-align: right; /* Aligns the text to the right */
 }
 </style>
