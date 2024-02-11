@@ -1,5 +1,6 @@
 <template>
 	<div class="home-page">
+		<div class="top-notice"></div>
 		<header class="main-header">
 			<div class="logo-container">
 				<img
@@ -538,5 +539,48 @@ body.menu-open .overlay {
 
 .additional-text {
 	text-align: right; /* Aligns the text to the right */
+}
+
+.top-marquee {
+	width: 100%;
+	background-color: var(
+		--color-dark
+	); /* Or any other color that fits the theme */
+	color: white;
+	padding: 5px 0;
+	font-size: 12px; /* Keep the font size small */
+	text-align: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100; /* Ensure it stays on top */
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(100%);
+	}
+}
+
+.top-notice {
+	width: 100%;
+	color: black; /* Adjust the color as needed */
+	background-color: transparent; /* Or any subtle color that fits your design */
+	padding: 2px 0;
+	font-size: 12px; /* Keep it small */
+	text-align: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100; /* High enough to be on top */
+}
+
+.top-notice::before {
+	content: '(pls view in 1920x1080p for now)'; /* Your message */
+	animation: marquee 40s linear infinite; /* Adjust timing as needed */
+	display: block;
 }
 </style>
