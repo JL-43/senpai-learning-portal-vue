@@ -55,10 +55,38 @@
 		</section>
 
 		<section class="founders-section" id="section3">
-			<div class="founders-image">
-				<img src="path/to/founders-image.png" alt="Founders" />
+			<h1 class="section-title">the founders</h1>
+			<div class="founders-content">
+				<div class="founders-cards">
+					<!-- Founder 1 Card -->
+					<div class="founder-card">
+						<img
+							src="@/assets/cza-founder.png"
+							alt="cza"
+							class="founder-image"
+						/>
+						<div class="founder-info">
+							<h2>czarina basa</h2>
+							<p>siya yung pinaka magaling</p>
+						</div>
+					</div>
+					<!-- Founder 2 Card -->
+					<div class="founder-card">
+						<img src="@/assets/jl-founder.png" alt="jl" class="founder-image" />
+						<div class="founder-info">
+							<h2>jose luis reyes</h2>
+							<p>siya yung nag code</p>
+						</div>
+					</div>
+				</div>
+				<div class="large-image-container">
+					<img
+						src="@/assets/section-3-amogus.png"
+						alt="Section 3 Large Image"
+						class="large-image"
+					/>
+				</div>
 			</div>
-			<div class="founders-info"></div>
 		</section>
 		<transition name="fade">
 			<div class="overlay" v-if="isMenuOpen"></div>
@@ -377,5 +405,87 @@ body.menu-open .overlay {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
 	opacity: 0;
+}
+
+.founders-section {
+	background-color: var(--color-dark); /* Adjust if necessary */
+	min-height: 100vh;
+	padding: 60px;
+	position: relative; /* Needed for absolute positioning of the large image */
+	color: var(--color-white); /* Ensures text is white */
+}
+
+.section-title {
+	color: var(--color-white);
+	margin-bottom: 40px;
+	font-size: 5em;
+	font-family: 'Work Sans', sans-serif; /* Your custom font */
+	font-weight: 600;
+}
+
+.founder-info h1 {
+	font-family: 'Work Sans', sans-serif;
+	font-size: 2.2em;
+	font-weight: 600;
+	color: var(--color-text-dark);
+}
+
+.founders-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: start; /* Align items at the top */
+}
+
+.founders-cards {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	z-index: 2; /* Ensure it's above the large image */
+}
+
+.founder-card {
+	background-color: transparent; /* Transparent background */
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+.founder-image {
+	width: 100px; /* Adjust as needed */
+	height: 100px; /* Adjust as needed */
+	border-radius: 50%; /* Circular image */
+	object-fit: cover;
+}
+
+.founder-info h2 {
+	/* font-family: 'Work Sans', sans-serif; */
+	font-family: 'Comfortaa', sans-serif;
+	font-size: 2.2em;
+	font-weight: 600;
+	color: var(--color-text-white);
+}
+
+.founder-info p {
+	margin: 0;
+	font-family: 'Work Sans Italic', sans-serif;
+	font-size: 1.2em;
+	font-weight: 200;
+	color: var(--color-text-white);
+}
+
+.large-image-container {
+	position: absolute;
+	right: -600px;
+	top: -5px; /* Adjust so the top part touches Section 2 */
+	z-index: 1; /* Ensure it's below the cards */
+}
+
+.large-image {
+	min-height: 100vh;
+	max-width: 40%; /* Adjust to extend to the edge of the right side */
+	height: auto; /* Maintain aspect ratio */
+	object-fit: cover; /* Ensure image covers the area */
 }
 </style>
