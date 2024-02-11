@@ -16,7 +16,6 @@
 				<span class="hamburger-line"></span>
 			</button>
 		</header>
-
 		<section class="hero-section" id="section1">
 			<div class="hero-content">
 				<div class="text-with-border">
@@ -61,6 +60,9 @@
 			</div>
 			<div class="founders-info"></div>
 		</section>
+		<transition name="fade">
+			<div class="overlay" v-if="isMenuOpen"></div>
+		</transition>
 	</div>
 </template>
 
@@ -73,6 +75,7 @@ export default {
 	data() {
 		return {
 			progressData: [],
+			isMenuOpen: false,
 		};
 	},
 	async created() {
@@ -91,6 +94,9 @@ export default {
 		}
 	},
 	methods: {
+		toggleMenu() {
+			this.isMenuOpen = !this.isMenuOpen;
+		},
 		calculateOverallProgress(courses) {
 			const completed = courses.filter((course) => course.completed).length;
 			return Math.round((completed / courses.length) * 100);
@@ -321,6 +327,12 @@ a {
 	min-height: 100vh;
 }
 
+body.menu-open .overlay {
+	display: block;
+	opacity: 1;
+	visibility: visible;
+}
+
 .hamburger-menu {
 	position: absolute;
 	top: 78px; /* Adjust as needed */
@@ -334,7 +346,7 @@ a {
 	border: none;
 	cursor: pointer;
 	padding: 0;
-	z-index: 11;
+	z-index: 30;
 }
 
 .hamburger-line {
@@ -344,5 +356,26 @@ a {
 	background: var(--color-dark);
 	border-radius: 10px;
 	transition: all 0.3s ease-in-out;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 20;
+	opacity: 1; /* Set default opacity to 0 for transition */
+}
+
+.fade-enter-active {
+	transition: opacity 1s ease; /* not working for some reason */
+}
+.fade-leave-active {
+	transition: opacity 1s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+	opacity: 0;
 }
 </style>
