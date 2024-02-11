@@ -10,25 +10,28 @@
 					height="325"
 				/>
 			</div>
-			<button class="hamburger-menu">
-				<span></span>
-				<span></span>
-				<span></span>
+			<button class="hamburger-menu" @click="toggleMenu">
+				<span class="hamburger-line"></span>
+				<span class="hamburger-line"></span>
+				<span class="hamburger-line"></span>
 			</button>
 		</header>
 
 		<section class="hero-section" id="section1">
 			<div class="hero-content">
-				<h1 class="hero-title"><span class="animated-sap">SAP</span></h1>
-				<div class="rounded-lines-area"></div>
-				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente,
-					expedita temporibus quasi inventore esse labore aliquid quas nostrum
-					tenetur, soluta deleniti? Minus dicta, quaerat eius earum nisi
-					necessitatibus dolorem similique.
-				</p>
-				<div class="rounded-lines-area"></div>
+				<div class="text-with-border">
+					<div class="text-content">
+						<h1>become a SAP master!</h1>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud exercitation ullamco laboris
+							nisi ut aliquip ex ea commodo consequat.
+						</p>
+					</div>
+				</div>
 			</div>
+			<div class="sap-logo-background"></div>
 		</section>
 
 		<section class="learning-boards" id="section2">
@@ -122,6 +125,15 @@ export default {
 
 <style>
 /* App Level styles */
+
+:root {
+	--color-white: #f1f6ef;
+	--color-green: #bcd4ac;
+	--color-dark: #293133;
+	--color-gray: #9da1aa;
+	--color-text-dark: #282828;
+}
+
 body {
 	font-family: 'San Francisco', sans-serif; /* If you're using Apple's font */
 	background-color: #f8f8f8;
@@ -144,14 +156,6 @@ body {
 	height: auto; /* Maintain aspect ratio */
 }
 
-:root {
-	--color-white: #f1f6ef;
-	--color-green: #bcd4ac;
-	--color-dark: #293133;
-	--color-gray: #9da1aa;
-	--color-text-dark: #282828;
-}
-
 .main-header {
 	position: relative; /* Add this */
 	background-color: var(--color-white);
@@ -164,12 +168,69 @@ body {
 }
 
 .hero-section {
+	position: relative;
 	background-color: var(--color-white);
 	min-height: 100vh;
-	position: relative;
+	padding: 60px;
 	display: flex;
 	align-items: center;
-	padding: 60px;
+	justify-content: center;
+	flex-direction: column; /* Align items vertically */
+}
+
+.text-with-border {
+	position: absolute;
+	top: 55%;
+	left: 50%;
+	width: 90vw; /* Adjust based on the size of your logo */
+	min-height: 100vh; /* Adjust based on the size of your logo */
+	transform: translate(-56%, -50%);
+	background: url('@/assets/section-text-border.png') no-repeat center center;
+	background-size: contain;
+	padding: 50px; /* Adjust the padding to fit your text inside the image's space */
+	text-align: left;
+	font-family: 'Work Sans', sans-serif; /* Apply custom font */
+	z-index: 10;
+}
+
+.text-content {
+	position: relative;
+	top: 30px; /* text inside the shapes */
+	left: -17%; /* text margin from left of page */
+	transform: translate(50%, 50%); /* Center the text within the image */
+	max-width: 600px; /* Set a max-width for the text content */
+	z-index: 10;
+}
+
+.text-content h1 {
+	font-family: 'Work Sans', sans-serif;
+	font-size: 3em;
+	font-weight: 900;
+	color: var(--color-text-dark);
+	margin-bottom: 20px;
+}
+
+.text-content p {
+	margin: 10;
+	color: #000;
+	font-family: 'Comfortaa', sans-serif;
+	font-size: 29px;
+	font-weight: 600; /* Choose a weight */
+	/* Apply additional styling as needed */
+}
+
+.sap-logo-background {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: auto; /* Adjust as needed */
+	height: auto; /* Adjust as needed */
+	width: 55vw; /* Adjust based on the size of your logo */
+	height: 80vh; /* Adjust based on the size of your logo */
+	background: url('@/assets/sap-ok.png') center/cover no-repeat;
+	background-position: right bottom; /* Adjust to prevent cut-off */
+	background-size: contain; /* Change to 'contain' to fit the image within the div */
+	z-index: 10;
 }
 
 .cloud-image-top-left {
@@ -250,5 +311,30 @@ body {
 .founders-section {
 	background-color: var(--color-dark);
 	min-height: 100vh;
+}
+
+.hamburger-menu {
+	position: absolute;
+	top: 78px; /* Adjust as needed */
+	right: 70px; /* Adjust as needed */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	width: 90px; /* width of hamburger lines */
+	height: 75px; /* compression of hamburger lines */
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	z-index: 11;
+}
+
+.hamburger-line {
+	display: block;
+	width: 100%;
+	height: 19px; /* thickness of the lines */
+	background: var(--color-dark);
+	border-radius: 10px;
+	transition: all 0.3s ease-in-out;
 }
 </style>
