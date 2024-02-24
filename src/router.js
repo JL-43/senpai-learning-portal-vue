@@ -1,33 +1,20 @@
-// src/router.js
-
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from './views/HomePage.vue';
-import GeneralBoard from './views/GeneralBoard.vue';
-import OTCBoard from './views/OTCBoard.vue';
-import SCMBoard from './views/SCMBoard.vue';
+import BoardView from './views/BoardView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomePage
+    component: HomePage,
   },
   {
-    path: '/general-board',
-    name: 'generalBoard',
-    component: GeneralBoard
+    path: '/board/:boardType', // Dynamic segment for board type
+    name: 'board',
+    component: BoardView,
+    props: true, // Pass route params as props to the component
   },
-  {
-    path: '/otc',
-    name: 'otc',
-    component: OTCBoard
-  },
-  {
-    path: '/scm',
-    name: 'scm',
-    component: SCMBoard
-  }
-  // Add more routes as needed
+  // other routes...
 ];
 
 const router = createRouter({

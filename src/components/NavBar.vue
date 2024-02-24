@@ -1,15 +1,32 @@
 <template>
-  <nav class="custom-navbar p-6 text-white flex justify">
-    <router-link to="/" class="px-4 hover:bg-gray-700 py-2 rounded">Home</router-link>
-    <router-link to="/general-board" class="px-4 hover:bg-gray-700 py-2 rounded">General Learning Board</router-link>
-    <router-link to="/otc" class="px-4 hover:bg-gray-700 py-2 rounded">EMEA S/4HANA for OTC Beginner</router-link>
-    <router-link to="/scm" class="px-4 hover:bg-gray-700 py-2 rounded">EMEA S/4HANA for SCM Beginner</router-link>
+  <nav class="custom-navbar">
+    <router-link to="/" class="nav-link">Home</router-link>
+    <router-link :to="{ name: 'board', params: { boardType: 'generalBoard' } }" class="nav-link">General Learning Board</router-link>
+    <router-link :to="{ name: 'board', params: { boardType: 'otcBoard' } }" class="nav-link">EMEA S/4HANA for OTC Beginner</router-link>
+    <router-link :to="{ name: 'board', params: { boardType: 'scmBoard' } }" class="nav-link">EMEA S/4HANA for SCM Beginner</router-link>
   </nav>
 </template>
 
-<style>
+<style scoped>
 nav.custom-navbar {
-  background-color: #002b36;
-  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-dark);
+  padding: 20px 40px;
+  font-family: 'Comfortaa', cursive;
+}
+
+.nav-link {
+  color: var(--color-white);
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: var(--color-green);
+  color: var(--color-dark);
 }
 </style>

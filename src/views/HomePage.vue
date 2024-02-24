@@ -43,14 +43,15 @@
 					class="learning-card"
 					v-for="board in progressData"
 					:key="board.name"
+					@click="
+						() => {
+							console.log(board.name + ' clicked');
+							navigateToBoard(board.name);
+						}
+					"
 				>
 					<div class="card-header">{{ formatBoardTitle(board.name) }}</div>
-					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quod
-						ipsum quam quaerat autem saepe optio ad itaque sed numquam? Saepe
-						praesentium quos maxime tenetur error rerum, perspiciatis maiores
-						aut.
-					</p>
+					<p>Click the cards! (Description coming soon!)</p>
 				</div>
 			</div>
 		</section>
@@ -146,7 +147,8 @@ export default {
 			return nameMap[boardName] || boardName;
 		},
 		navigateToBoard(boardName) {
-			this.$router.push({ name: boardName });
+			console.log(boardName + ' was clicked');
+			this.$router.push({ name: 'board', params: { boardType: boardName } });
 		},
 		getBadgeImage(boardName, progress) {
 			const lowerCaseBoardName = boardName.toLowerCase();
