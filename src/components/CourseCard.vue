@@ -4,9 +4,9 @@
 		<div v-if="course.completed">
 			{{ formatDate(course.completionTimestamp) }}
 			<br /><br />
-			<button class="button revert-button" @click.stop="revertCompletion">
+			<!-- <button class="button revert-button" @click.stop="revertCompletion">
 				Revert Completion
-			</button>
+			</button> -->
 		</div>
 		<div class="mark-complete" @click.stop="emitChange">
 			<div class="progress-bar-background">
