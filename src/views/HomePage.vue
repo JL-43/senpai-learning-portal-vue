@@ -23,10 +23,9 @@
 					<div class="text-content">
 						<h1>become an SAP master!</h1>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-							enim ad minim veniam, quis nostrud exercitation ullamco laboris
-							nisi ut aliquip ex ea commodo consequat.
+							With this learning portal, track your progress and easily navigate
+							through mutiple SAP courses to be able to achieve your
+							certification goals! Also! My senpai is the best!
 						</p>
 					</div>
 				</div>
@@ -50,12 +49,12 @@
 					@click="
 						() => {
 							console.log(board.name + ' clicked');
-							navigateToBoard(board.name);
+							navigateToBoard(board.name, board.description);
 						}
 					"
 				>
 					<div class="card-header">{{ formatBoardTitle(board.name) }}</div>
-					<p>Click the cards! (Description coming soon!)</p>
+					<p>{{board.description}}</p>
 				</div>
 			</div>
 		</section>
@@ -73,7 +72,8 @@
 						/>
 						<div class="founder-info">
 							<h2>czarina basa</h2>
-							<p>siya yung pinaka magaling</p>
+							<p>siya yung pinaka magaling, pinaka mabait,</p> 
+							<p>pinaka matalino, pinaka maganda, da best</p>
 						</div>
 					</div>
 					<!-- Founder 2 Card -->
@@ -123,16 +123,31 @@ export default {
 		};
 	},
 	async created() {
-		const boards = ['generalBoard', 'otcBoard', 'scmBoard'];
-		for (const boardName of boards) {
-			const coursesCollection = collection(db, 'courses', boardName, 'items');
+		const boards = [
+			{
+				name: 'generalBoard',
+				description: 'Learn about general SAP knowledge here!',
+			},
+			{
+				name: 'otcBoard',
+				description:
+					'Want to get better at Order To Cash like my senpai? Click here!',
+			},
+			{
+				name: 'scmBoard',
+				description: 'Click here to learn more about Supply Chain Management!',
+			},
+		];
+		for (const board of boards) {
+			const coursesCollection = collection(db, 'courses', board.name, 'items');
 			const querySnapshot = await getDocs(coursesCollection);
 			const courses = querySnapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
 			}));
 			this.progressData.push({
-				name: boardName,
+				name: board.name,
+				description: board.description,
 				courses: courses,
 			});
 		}
@@ -141,8 +156,8 @@ export default {
 		gsap.to('#S', {
 			scrollTrigger: {
 				trigger: '#S',
-				start: 'top left', // Experiment with these values
-				end: '+=500',
+				start: 'bottom bottom', // Experiment with these values
+				end: '+=700',
 				scrub: true,
 			},
 			y: () => -window.innerHeight * 0.2,
@@ -154,7 +169,7 @@ export default {
 			scrollTrigger: {
 				trigger: '#A',
 				start: 'bottom bottom', // Experiment with these values
-				end: '+=500',
+				end: '+=1200',
 				scrub: true,
 			},
 			y: () => -window.innerHeight * -0.35,
@@ -189,17 +204,20 @@ export default {
 			};
 			return nameMap[boardName] || boardName;
 		},
-		navigateToBoard(boardName) {
-			console.log(boardName + ' was clicked');
-			this.$router.push({ name: 'board', params: { boardType: boardName } });
+		navigateToBoard(boardName, description) {
+			this.$router.push({
+				name: 'board',
+				params: { boardType: boardName },
+				query: { description: description },
+			});
 		},
 		getBadgeImage(boardName, progress) {
-			const lowerCaseBoardName = boardName.toLowerCase();
+			const lowerCaseboardName = boardName.toLowerCase();
 			try {
 				if (progress === 100) {
-					return require(`@/assets/${lowerCaseBoardName}.png`);
+					return require(`@/assets/${lowerCaseboardName}.png`);
 				} else {
-					return require(`@/assets/${lowerCaseBoardName}_blackwhite.png`);
+					return require(`@/assets/${lowerCaseboardName}_blackwhite.png`);
 				}
 			} catch (e) {
 				console.error(`Error loading badge image for ${boardName}:`, e);
