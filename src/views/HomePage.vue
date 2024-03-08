@@ -31,7 +31,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="sap-logo-background"></div>
+			<!-- <div class="sap-logo-background"></div> -->
+			<!-- replace above with animated -->
+			<div id="S" class="sap-logo-background-s"></div>
+			<div id="A" class="sap-logo-background-a"></div>
+			<div id="P" class="sap-logo-background-p"></div>
 		</section>
 
 		<section class="learning-boards" id="section2">
@@ -106,6 +110,9 @@
 <script>
 import { db } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
 
 export default {
 	name: 'HomePage',
@@ -129,6 +136,42 @@ export default {
 				courses: courses,
 			});
 		}
+	},
+	mounted() {
+		gsap.to('#S', {
+			scrollTrigger: {
+				trigger: '#S',
+				start: 'top left', // Experiment with these values
+				end: '+=500',
+				scrub: true,
+			},
+			y: () => -window.innerHeight * 0.2,
+			rotation: 90,
+			duration: 10, // Duration of the animation
+			transformOrigin: 'center center',
+		});
+		gsap.to('#A', {
+			scrollTrigger: {
+				trigger: '#A',
+				start: 'bottom bottom', // Experiment with these values
+				end: '+=500',
+				scrub: true,
+			},
+			y: () => -window.innerHeight * -0.35,
+			rotation: -120,
+			duration: 10, // Duration of the animation
+		});
+		gsap.to('#P', {
+			scrollTrigger: {
+				trigger: '#P',
+				start: 'bottom bottom', // Experiment with these values
+				end: '+=500',
+				scrub: true,
+			},
+			y: () => -window.innerHeight * 0.05,
+			rotation: 60,
+			duration: 10, // Duration of the animation
+		});
 	},
 	methods: {
 		toggleMenu() {
@@ -272,15 +315,43 @@ a {
 	/* Apply additional styling as needed */
 }
 
-.sap-logo-background {
+.sap-logo-background-s {
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	right: 400px;
 	width: auto; /* Adjust as needed */
 	height: auto; /* Adjust as needed */
 	width: 55vw; /* Adjust based on the size of your logo */
 	height: 80vh; /* Adjust based on the size of your logo */
-	background: url('@/assets/sap-ok.png') center/cover no-repeat;
+	background: url('@/assets/sap-ok-s.png') center/cover no-repeat;
+	background-position: right bottom; /* Adjust to prevent cut-off */
+	background-size: contain; /* Change to 'contain' to fit the image within the div */
+	z-index: 10;
+}
+
+.sap-logo-background-a {
+	position: absolute;
+	bottom: 0;
+	right: 90px;
+	width: auto; /* Adjust as needed */
+	height: auto; /* Adjust as needed */
+	width: 55vw; /* Adjust based on the size of your logo */
+	height: 80vh; /* Adjust based on the size of your logo */
+	background: url('@/assets/sap-ok-a.png') center/cover no-repeat;
+	background-position: right bottom; /* Adjust to prevent cut-off */
+	background-size: contain; /* Change to 'contain' to fit the image within the div */
+	z-index: 10;
+}
+
+.sap-logo-background-p {
+	position: absolute;
+	bottom: 0;
+	right: -180px;
+	width: auto; /* Adjust as needed */
+	height: auto; /* Adjust as needed */
+	width: 55vw; /* Adjust based on the size of your logo */
+	height: 80vh; /* Adjust based on the size of your logo */
+	background: url('@/assets/sap-ok-p.png') center/cover no-repeat;
 	background-position: right bottom; /* Adjust to prevent cut-off */
 	background-size: contain; /* Change to 'contain' to fit the image within the div */
 	z-index: 10;
