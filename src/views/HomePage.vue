@@ -54,7 +54,7 @@
 					"
 				>
 					<div class="card-header">{{ formatBoardTitle(board.name) }}</div>
-					<p>{{board.description}}</p>
+					<p>{{ board.description }}</p>
 				</div>
 			</div>
 		</section>
@@ -72,7 +72,7 @@
 						/>
 						<div class="founder-info">
 							<h2>czarina basa</h2>
-							<p>siya yung pinaka magaling, pinaka mabait,</p> 
+							<p>siya yung pinaka magaling, pinaka mabait,</p>
 							<p>pinaka matalino, pinaka maganda, da best</p>
 						</div>
 					</div>
@@ -309,7 +309,7 @@ a {
 
 .text-content {
 	position: relative;
-	top: 30px; /* text inside the shapes */
+	top: 65px; /* text inside the shapes */
 	left: -17%; /* text margin from left of page */
 	transform: translate(50%, 50%); /* Center the text within the image */
 	max-width: 600px; /* Set a max-width for the text content */
